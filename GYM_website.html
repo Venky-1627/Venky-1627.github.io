@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thrive Fitness Gym Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@500;700&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            neon: '#39FF14',
+            charcoal: '#1a1a1a',
+            carbon: '#111111',
+            steel: '#2a2a2a',
+            muted: '#888888',
+          },
+          fontFamily: {
+            display: ['"Bebas Neue"', 'sans-serif'],
+            condensed: ['"Barlow Condensed"', 'sans-serif'],
+            body: ['"Barlow"', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * { scroll-behavior: smooth; }
+
+    body {
+      background-color: #111111;
+      font-family: 'Barlow', sans-serif;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* Neon glow utilities */
+    .neon-glow { text-shadow: 0 0 10px #39FF14, 0 0 30px #39FF1480; }
+    .neon-border { border: 1px solid #39FF14; box-shadow: 0 0 12px #39FF1440, inset 0 0 12px #39FF1408; }
+    .neon-btn {
+      background: #39FF14;
+      color: #111;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 18px #39FF1480;
+    }
+    .neon-btn:hover {
+      background: #111;
+      color: #39FF14;
+      box-shadow: 0 0 28px #39FF14cc;
+      border-color: #39FF14;
+    }
+
+    /* Nav */
+    nav {
+      backdrop-filter: blur(12px);
+      background: rgba(17,17,17,0.88);
+      border-bottom: 1px solid rgba(57,255,20,0.12);
+    }
+    .nav-link {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      color: #aaa;
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 2px;
+      background: #39FF14;
+      transition: width 0.25s;
+      box-shadow: 0 0 6px #39FF14;
+    }
+    .nav-link:hover { color: #39FF14; }
+    .nav-link:hover::after { width: 100%; }
+
+    /* Hero */
+    .hero-bg {
+      background:
+        linear-gradient(135deg, rgba(17,17,17,0.92) 40%, rgba(57,255,20,0.04) 100%),
+        repeating-linear-gradient(
+          90deg,
+          rgba(255,255,255,0.015) 0px,
+          rgba(255,255,255,0.015) 1px,
+          transparent 1px,
+          transparent 60px
+        ),
+        repeating-linear-gradient(
+          0deg,
+          rgba(255,255,255,0.015) 0px,
+          rgba(255,255,255,0.015) 1px,
+          transparent 1px,
+          transparent 60px
+        ),
+        #111;
+    }
+    .hero-img-placeholder {
+      background:
+        linear-gradient(135deg, #1a1a1a 0%, #222 50%, #1a1a1a 100%);
+      border: 1px solid rgba(57,255,20,0.18);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-img-placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        rgba(57,255,20,0.04) 0px,
+        rgba(57,255,20,0.04) 1px,
+        transparent 1px,
+        transparent 20px
+      );
+    }
+    .hero-img-placeholder::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      border: 2px solid rgba(57,255,20,0.3);
+      box-shadow: 0 0 40px rgba(57,255,20,0.15);
+    }
+
+    /* Section headings */
+    .section-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      color: #39FF14;
+      font-weight: 600;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.04em;
+      line-height: 1;
+    }
+
+    /* Feature cards */
+    .feature-card {
+      background: #1a1a1a;
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 0;
+      background: #39FF14;
+      box-shadow: 0 0 10px #39FF14;
+      transition: height 0.3s ease;
+    }
+    .feature-card:hover { border-color: rgba(57,255,20,0.25); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+    .feature-card:hover::before { height: 100%; }
+
+    /* Pricing */
+    .pricing-card {
+      background: #1a1a1a;
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: all 0.3s ease;
+    }
+    .pricing-card:hover { transform: translateY(-4px); }
+    .pricing-card.popular {
+      border: 1px solid #39FF14;
+      box-shadow: 0 0 30px rgba(57,255,20,0.18), inset 0 0 30px rgba(57,255,20,0.03);
+    }
+
+    /* Hours table */
+    .hours-row { border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .hours-row:last-child { border-bottom: none; }
+
+    /* Form */
+    .form-input {
+      background: #1a1a1a;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #fff;
+      font-family: 'Barlow', sans-serif;
+      transition: all 0.2s;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: #39FF14;
+      box-shadow: 0 0 10px rgba(57,255,20,0.2);
+    }
+    .form-input::placeholder { color: #555; }
+
+    /* Map placeholder */
+    .map-placeholder {
+      background: #1a1a1a;
+      border: 1px solid rgba(57,255,20,0.15);
+      position: relative;
+      overflow: hidden;
+    }
+    .map-placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(0deg, rgba(57,255,20,0.03) 0, rgba(57,255,20,0.03) 1px, transparent 1px, transparent 30px),
+        repeating-linear-gradient(90deg, rgba(57,255,20,0.03) 0, rgba(57,255,20,0.03) 1px, transparent 1px, transparent 30px);
+    }
+
+    /* Scroll animation */
+    .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* Mobile menu */
+    #mobile-menu { display: none; }
+    #mobile-menu.open { display: flex; }
+
+    /* Divider line */
+    .neon-divider {
+      width: 48px; height: 3px;
+      background: #39FF14;
+      box-shadow: 0 0 8px #39FF14;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ========== NAVIGATION ========== -->
+<nav class="fixed top-0 left-0 right-0 z-50">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <!-- Logo -->
+    <a href="#home" class="flex items-center gap-2 group">
+      <div class="w-7 h-7 border-2 border-neon flex items-center justify-center" style="box-shadow:0 0 10px #39FF1466;">
+        <span class="font-display text-neon text-sm leading-none">T</span>
+      </div>
+      <span class="font-display text-white text-xl tracking-widest group-hover:text-neon transition-colors">Thrive Fitness Gym HUB</span>
+    </a>
+
+    <!-- Desktop Nav -->
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#home" class="nav-link">Home</a>
+      <a href="#features" class="nav-link">Features</a>
+      <a href="#pricing" class="nav-link">Pricing</a>
+      <a href="#contact" class="nav-link">Contact</a>
+      <a href="#pricing" class="neon-btn px-5 py-2 text-sm border border-neon">Join Now</a>
+    </div>
+
+    <!-- Mobile hamburger -->
+    <button id="menu-toggle" class="md:hidden flex flex-col gap-1.5 p-2" aria-label="Toggle menu">
+      <span class="w-6 h-0.5 bg-white block transition-all" id="bar1"></span>
+      <span class="w-6 h-0.5 bg-white block transition-all" id="bar2"></span>
+      <span class="w-4 h-0.5 bg-neon block transition-all" id="bar3"></span>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="md:hidden flex-col px-6 pb-6 gap-4 border-t border-white/5">
+    <a href="#home" class="nav-link py-2 block" onclick="closeMobileMenu()">Home</a>
+    <a href="#features" class="nav-link py-2 block" onclick="closeMobileMenu()">Features</a>
+    <a href="#pricing" class="nav-link py-2 block" onclick="closeMobileMenu()">Pricing</a>
+    <a href="#contact" class="nav-link py-2 block" onclick="closeMobileMenu()">Contact</a>
+    <a href="#pricing" class="neon-btn px-5 py-2 text-sm border border-neon inline-block mt-2 text-center" onclick="closeMobileMenu()">Join Now</a>
+  </div>
+</nav>
+
+
+<!-- ========== HERO ========== -->
+<section id="home" class="hero-bg min-h-screen flex items-center pt-20">
+  <div class="max-w-7xl mx-auto px-6 py-20 w-full">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+
+      <!-- Text -->
+      <div class="fade-in">
+        <p class="section-tag mb-4">Hyderabad's Premier Fitness Center</p>
+        <h1 class="section-title text-white text-6xl md:text-8xl mb-6 leading-none">
+          TRANSFORM<br/>
+          YOUR BODY,<br/>
+          <span class="text-neon neon-glow">ELEVATE</span><br/>
+          YOUR LIFE.
+        </h1>
+        <div class="neon-divider mb-6"></div>
+        <p class="text-muted text-lg font-light leading-relaxed mb-10 max-w-md">
+          Push beyond your limits at Thrive Fitness Gym Hub. State-of-the-art equipment, expert trainers, and a community that drives results — 365 days a year.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="#pricing" class="neon-btn px-8 py-4 text-base border-2 border-neon inline-block">
+            View Memberships
+          </a>
+          <a href="#features" class="px-8 py-4 text-base border border-white/20 text-white font-condensed font-semibold tracking-widest uppercase hover:border-white/60 transition-colors inline-block">
+            Explore Features
+          </a>
+        </div>
+
+        <!-- Stats bar -->
+        <div class="flex gap-8 mt-12 pt-8 border-t border-white/08">
+          <div>
+            <div class="font-display text-3xl text-neon neon-glow">500+</div>
+            <div class="text-muted text-sm font-light">Active Members</div>
+          </div>
+          <div class="w-px bg-white/10"></div>
+          <div>
+            <div class="font-display text-3xl text-white">15+</div>
+            <div class="text-muted text-sm font-light">Expert Trainers</div>
+          </div>
+          <div class="w-px bg-white/10"></div>
+          <div>
+            <div class="font-display text-3xl text-white">24/7</div>
+            <div class="text-muted text-sm font-light">Gym Access</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Image Placeholder -->
+      <div class="fade-in hero-img-placeholder rounded-lg aspect-[4/5] flex flex-col items-center justify-center gap-4 relative" style="transition-delay:0.2s">
+        <svg class="relative z-10 opacity-30" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#39FF14" stroke-width="1.5">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
+        </svg>
+        <span class="relative z-10 text-white/20 font-condensed tracking-widest uppercase text-sm">High-Quality Gym Image</span>
+        <div class="absolute inset-0 flex items-end p-6">
+          <div class="w-full h-1/3 bg-gradient-to-t from-black/60 to-transparent"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ========== FEATURES ========== -->
+<section id="features" class="py-24" style="background:#131313;">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <div class="text-center mb-16 fade-in">
+      <p class="section-tag mb-3">Why Choose Us</p>
+      <h2 class="section-title text-white text-5xl md:text-6xl">WORLD-CLASS<br/><span class="text-neon neon-glow">FACILITIES</span></h2>
+      <div class="neon-divider mx-auto mt-4"></div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <!-- Card 1 -->
+      <div class="feature-card rounded-lg p-8 fade-in">
+        <div class="w-14 h-14 border border-neon/40 flex items-center justify-center mb-6 rounded" style="box-shadow:0 0 16px rgba(57,255,20,0.1)">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#39FF14" stroke-width="1.5">
+            <path d="M6 4v16M18 4v16M2 8h4M18 8h4M2 16h4M18 16h4"/>
+          </svg>
+        </div>
+        <h3 class="font-condensed font-700 text-xl text-white tracking-wide uppercase mb-3">Modern Equipment</h3>
+        <p class="text-muted font-light leading-relaxed text-sm">
+          Over 200 premium machines from leading brands — free weights, resistance zones, cardio decks, and functional training rigs built for serious athletes.
+        </p>
+        <div class="mt-6 flex gap-2 flex-wrap">
+          <span class="text-xs font-condensed tracking-wider uppercase border border-white/10 px-3 py-1 text-white/40">Cardio</span>
+          <span class="text-xs font-condensed tracking-wider uppercase border border-white/10 px-3 py-1 text-white/40">Strength</span>
+          <span class="text-xs font-condensed tracking-wider uppercase border border-white/10 px-3 py-1 text-white/40">Recovery</span>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="feature-card rounded-lg p-8 fade-in" style="transition-delay:0.12s">
+        <div class="w-14 h-14 border border-neon/40 flex items-center justify-center mb-6 rounded" style="box-shadow:0 0 16px rgba(57,255,20,0.1)">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#39FF14" stroke-width="1.5">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <h3 class="font-condensed font-700 text-xl text-white tracking-wide uppercase mb-3">Expert Trainers</h3>
+        <p class="text-muted font-light leading-relaxed text-sm">
+          Our certified coaches bring years of competition and coaching experience. Personalized programs, nutrition guidance, and relentless motivation — every session.
+        </p>
+        <div class="mt-6 flex gap-2 flex-wrap">
+          <span class="text-xs font-condensed tracking-wider uppercase border border-white/10 px-3 py-1 text-white/40">Personal</span>
+          <span class="text-xs font-condensed tracking-wider uppercase border border-white/10 px-3 py-1 text-white/40">Group</span>
+          <span class="text-xs font-condensed tracking-wider uppercase border border-white/10 px-3 py-1 text-white/40">Online</span>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="feature-card rounded-lg p-8 fade-in" style="transition-delay:0.24s">
+        <div class="w-14 h-14 border border-neon/40 flex items-center justify-center mb-6 rounded" style="box-shadow:0 0 16px rgba(57,255,20,0.1)">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#39FF14" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <h3 class="font-condensed font-700 text-xl text-white tracking-wide uppercase mb-3">24/7 Access</h3>
+        <p class="text-muted font-light leading-relaxed text-sm">
+          Your schedule, your rules. Pro and Elite members enjoy round-the-clock access with secure biometric entry — train before dawn or after midnight, no restrictions.
+        </p>
+        <div class="mt-6 flex gap-2 flex-wrap">
+          <span class="text-xs font-condensed tracking-wider uppercase border border-white/10 px-3 py-1 text-white/40">Keyless</span>
+          <span class="text-xs font-condensed tracking-wider uppercase border border-white/10 px-3 py-1 text-white/40">Secure</span>
+          <span class="text-xs font-condensed tracking-wider uppercase border border-white/10 px-3 py-1 text-white/40">365 Days</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Extra row of smaller feature pills -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+      <div class="feature-card rounded p-5 fade-in flex gap-4 items-center" style="transition-delay:0.3s">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#39FF14" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span class="font-condensed tracking-wider uppercase text-white/70 text-sm">Steam Room</span>
+      </div>
+      <div class="feature-card rounded p-5 fade-in flex gap-4 items-center" style="transition-delay:0.36s">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#39FF14" stroke-width="1.5"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>
+        <span class="font-condensed tracking-wider uppercase text-white/70 text-sm">Nutrition Bar</span>
+      </div>
+      <div class="feature-card rounded p-5 fade-in flex gap-4 items-center" style="transition-delay:0.42s">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#39FF14" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span class="font-condensed tracking-wider uppercase text-white/70 text-sm">Locker Rooms</span>
+      </div>
+      <div class="feature-card rounded p-5 fade-in flex gap-4 items-center" style="transition-delay:0.48s">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#39FF14" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span class="font-condensed tracking-wider uppercase text-white/70 text-sm">Free Wi-Fi</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ========== PRICING ========== -->
+<section id="pricing" class="py-24" style="background:#111;">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <div class="text-center mb-16 fade-in">
+      <p class="section-tag mb-3">Membership Plans</p>
+      <h2 class="section-title text-white text-5xl md:text-6xl">CHOOSE YOUR<br/><span class="text-neon neon-glow">COMMITMENT</span></h2>
+      <div class="neon-divider mx-auto mt-4"></div>
+      <p class="text-muted mt-4 max-w-md mx-auto font-light">No hidden fees. Cancel anytime on monthly plans. All memberships include locker access and group classes.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6 items-start">
+
+      <!-- Basic -->
+      <div class="pricing-card rounded-lg p-8 fade-in">
+        <p class="section-tag mb-2">Starter</p>
+        <h3 class="font-display text-3xl text-white tracking-wider mb-1">BASIC</h3>
+        <div class="flex items-end gap-1 mb-6">
+          <span class="font-display text-5xl text-white">₹500</span>
+          <span class="text-muted mb-2 font-light">/month</span>
+        </div>
+        <div class="neon-divider mb-6" style="background:#555;box-shadow:none;"></div>
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-center gap-3 text-sm text-white/70 font-light">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#39FF14" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            Access 6 AM – 10 PM
+          </li>
+          <li class="flex items-center gap-3 text-sm text-white/70 font-light">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#39FF14" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            All Equipment Access
+          </li>
+          <li class="flex items-center gap-3 text-sm text-white/70 font-light">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#39FF14" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            Locker Room Access
+          </li>
+          <li class="flex items-center gap-3 text-sm text-white/20 font-light">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            Expert Trainer Sessions
+          </li>
+          <li class="flex items-center gap-3 text-sm text-white/20 font-light">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            24/7 Access
+          </li>
+        </ul>
+        <a href="#contact" class="block text-center py-3 border border-white/20 font-condensed tracking-widest uppercase text-sm text-white/70 hover:border-neon hover:text-neon transition-all">
+          Get Started
+        </a>
+      </div>
+
+      <!-- Pro (Most Popular) -->
+      <div class="pricing-card popular rounded-lg p-8 fade-in relative" style="transition-delay:0.12s">
+        <div class="absolute -top-3.5 left-1/2 -translate-x-1/2">
+          <span class="bg-neon text-carbon font-condensed font-700 tracking-widest uppercase text-xs px-4 py-1.5">⚡ Most Popular</span>
+        </div>
+        <p class="section-tag mb-2">Best Value</p>
+        <h3 class="font-display text-3xl text-neon neon-glow tracking-wider mb-1">PRO</h3>
+        <div class="flex items-end gap-1 mb-6">
+          <span class="font-display text-5xl text-white">₹1,000</span>
+          <span class="text-muted mb-2 font-light">/month</span>
+        </div>
+        <div class="neon-divider mb-6"></div>
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-center gap-3 text-sm text-white/80 font-light">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#39FF14" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            Access 6 AM – 10 PM
+          </li>
+          <li class="flex items-center gap-3 text-sm text-white/80 font-light">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#39FF14" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            All Equipment Access
+          </li>
+          <li class="flex items-center gap-3 text-sm text-white/80 font-light">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#39FF14" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            4 Trainer Sessions / Month
+          </li>
+          <li class="flex items-center gap-3 text-sm text-white/80 font-light">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#39FF14" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            24/7 Biometric Access
+          </li>
+          <li class="flex items-center gap-3 text-sm text-white/80 font-light">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#39FF14" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            Nutrition Consultation
+          </li>
+        </ul>
+        <a href="#contact" class="neon-btn block text-center py-3 border-2 border-neon font-condensed tracking-widest uppercase text-sm">
+          Choose Pro
+        </a>
+      </div>
+
+      <!-- Annual Elite -->
+      <div class="pricing-card rounded-lg p-8 fade-in" style="transition-delay:0.24s; background:#1c1c1c;">
+        <p class="section-tag mb-2" style="color:#FFD700;">Elite</p>
+        <h3 class="font-display text-3xl text-white tracking-wider mb-1">ANNUAL ELITE</h3>
+        <div class="flex items-end gap-1 mb-2">
+          <span class="font-display text-5xl text-white">₹8,000</span>
+          <span class="text-muted mb-2 font-light">/year</span>
+        </div>
+        <p class="text-xs text-neon mb-6 font-condensed tracking-wider">Save ₹4,000 vs monthly</p>
+        <div class="neon-divider mb-6" style="background:linear-gradient(90deg,#FFD700,#39FF14);box-shadow:0 0 8px #FFD70066;"></div>
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-center gap-3 text-sm text-white/80 font-light">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            Everything in Pro
+          </li>
+          <li class="flex items-center gap-3 text-sm text-white/80 font-light">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            Unlimited Trainer Sessions
+          </li>
+          <li class="flex items-center gap-3 text-sm text-white/80 font-light">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            Steam Room & Spa Access
+          </li>
+          <li class="flex items-center gap-3 text-sm text-white/80 font-light">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            Guest Passes (2/month)
+          </li>
+          <li class="flex items-center gap-3 text-sm text-white/80 font-light">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            Priority Class Booking
+          </li>
+        </ul>
+        <a href="#contact" class="block text-center py-3 border font-condensed tracking-widest uppercase text-sm text-white/80 hover:text-white transition-colors" style="border-color:#FFD70040;">
+          Go Elite
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ========== LOCATION & HOURS ========== -->
+<section id="location" class="py-24" style="background:#131313;">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <div class="text-center mb-16 fade-in">
+      <p class="section-tag mb-3">Find Us</p>
+      <h2 class="section-title text-white text-5xl md:text-6xl">LOCATION &<br/><span class="text-neon neon-glow">HOURS</span></h2>
+      <div class="neon-divider mx-auto mt-4"></div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8">
+
+      <!-- Map placeholder -->
+      <div class="map-placeholder rounded-lg h-80 md:h-full min-h-64 flex flex-col items-center justify-center gap-4 fade-in">
+        <svg class="relative z-10 opacity-40" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#39FF14" stroke-width="1.5">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+        </svg>
+        <span class="relative z-10 text-white/25 font-condensed tracking-widest uppercase text-sm text-center px-4">Map Embed Goes Here<br/>
+          <span class="text-xs normal-case font-body font-light opacity-70">(Replace with Google Maps iframe)</span>
+        </span>
+        <div class="relative z-10 mt-2 px-6 py-3 border border-neon/30 text-neon/60 font-condensed tracking-widest uppercase text-xs hover:border-neon hover:text-neon transition-all cursor-pointer">
+          Get Directions
+        </div>
+      </div>
+
+      <!-- Info panel -->
+      <div class="space-y-6 fade-in" style="transition-delay:0.15s">
+
+        <!-- Address -->
+        <div class="feature-card rounded-lg p-6">
+          <div class="flex gap-4 items-start">
+            <svg class="mt-1 shrink-0" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#39FF14" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <div>
+              <p class="font-condensed tracking-wider uppercase text-sm text-neon mb-1">Address</p>
+              <p class="text-white font-light leading-relaxed">Plot 42, Madhapur Main Road,<br/>Hi-Tech City, Hyderabad — 500081<br/>Telangana, India</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hours table -->
+        <div class="feature-card rounded-lg p-6">
+          <div class="flex gap-4 items-start">
+            <svg class="mt-1 shrink-0" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#39FF14" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <div class="w-full">
+              <p class="font-condensed tracking-wider uppercase text-sm text-neon mb-4">Operating Hours</p>
+              <div class="space-y-0">
+                <div class="hours-row flex justify-between py-2.5">
+                  <span class="text-white/60 font-light text-sm">Monday – Friday</span>
+                  <span class="text-white font-condensed tracking-wide text-sm">6:00 AM – 10:00 PM</span>
+                </div>
+                <div class="hours-row flex justify-between py-2.5">
+                  <span class="text-white/60 font-light text-sm">Saturday</span>
+                  <span class="text-white font-condensed tracking-wide text-sm">7:00 AM – 9:00 PM</span>
+                </div>
+                <div class="hours-row flex justify-between py-2.5">
+                  <span class="text-white/60 font-light text-sm">Sunday</span>
+                  <span class="text-white font-condensed tracking-wide text-sm">8:00 AM – 6:00 PM</span>
+                </div>
+                <div class="flex justify-between pt-3">
+                  <span class="text-white/60 font-light text-sm">Pro/Elite Members</span>
+                  <span class="text-neon font-condensed tracking-wide text-sm neon-glow">24 / 7</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phone / Email -->
+        <div class="grid grid-cols-2 gap-4">
+          <div class="feature-card rounded-lg p-5">
+            <svg class="mb-3" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#39FF14" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <p class="text-white/40 text-xs font-condensed tracking-wider uppercase mb-1">Phone</p>
+            <p class="text-white text-sm font-light">+91 98765 43210</p>
+          </div>
+          <div class="feature-card rounded-lg p-5">
+            <svg class="mb-3" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#39FF14" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <p class="text-white/40 text-xs font-condensed tracking-wider uppercase mb-1">Email</p>
+            <p class="text-white text-sm font-light">info@titanfitness.in</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========== CONTACT FORM ========== -->
+<section id="contact" class="py-24" style="background:#0e0e0e;">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <div class="grid md:grid-cols-2 gap-16 items-center">
+
+      <!-- Left copy -->
+      <div class="fade-in">
+        <p class="section-tag mb-3">Get In Touch</p>
+        <h2 class="section-title text-white text-5xl md:text-6xl mb-4">START YOUR<br/><span class="text-neon neon-glow">JOURNEY TODAY</span></h2>
+        <div class="neon-divider mb-6"></div>
+        <p class="text-muted font-light leading-relaxed mb-8">
+          Have questions about memberships, personal training, or our facilities? Drop us a message and our team will get back to you within 24 hours.
+        </p>
+        <div class="space-y-4">
+          <div class="flex items-center gap-4 text-white/50 text-sm font-light">
+            <div class="w-8 h-8 border border-neon/30 flex items-center justify-center shrink-0">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#39FF14" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            Free trial session for new members
+          </div>
+          <div class="flex items-center gap-4 text-white/50 text-sm font-light">
+            <div class="w-8 h-8 border border-neon/30 flex items-center justify-center shrink-0">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#39FF14" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            No joining fee this month
+          </div>
+          <div class="flex items-center gap-4 text-white/50 text-sm font-light">
+            <div class="w-8 h-8 border border-neon/30 flex items-center justify-center shrink-0">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#39FF14" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            Response within 24 hours
+          </div>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="fade-in" style="transition-delay:0.15s">
+        <div class="feature-card rounded-lg p-8">
+          <div id="form-success" class="hidden text-center py-8">
+            <div class="w-16 h-16 border-2 border-neon flex items-center justify-center mx-auto mb-4" style="box-shadow:0 0 20px #39FF1466;">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#39FF14" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <p class="font-condensed tracking-widest uppercase text-neon text-lg mb-2">Message Sent!</p>
+            <p class="text-muted font-light text-sm">We'll be in touch within 24 hours.</p>
+          </div>
+          <div id="contact-form">
+            <div class="space-y-5">
+              <div>
+                <label class="block font-condensed tracking-wider uppercase text-xs text-white/50 mb-2">Full Name</label>
+                <input type="text" id="inp-name" placeholder="Your full name" class="form-input w-full rounded px-4 py-3 text-sm" />
+              </div>
+              <div>
+                <label class="block font-condensed tracking-wider uppercase text-xs text-white/50 mb-2">Phone Number</label>
+                <input type="tel" id="inp-phone" placeholder="+91 XXXXX XXXXX" class="form-input w-full rounded px-4 py-3 text-sm" />
+              </div>
+              <div>
+                <label class="block font-condensed tracking-wider uppercase text-xs text-white/50 mb-2">Membership Interest</label>
+                <select id="inp-plan" class="form-input w-full rounded px-4 py-3 text-sm text-white/70">
+                  <option value="" disabled selected>Select a plan...</option>
+                  <option>Basic — ₹500/month</option>
+                  <option>Pro — ₹1,000/month</option>
+                  <option>Annual Elite — ₹8,000/year</option>
+                  <option>Just have questions</option>
+                </select>
+              </div>
+              <div>
+                <label class="block font-condensed tracking-wider uppercase text-xs text-white/50 mb-2">Message</label>
+                <textarea id="inp-message" rows="4" placeholder="Tell us about your fitness goals..." class="form-input w-full rounded px-4 py-3 text-sm resize-none"></textarea>
+              </div>
+              <button onclick="submitForm()" class="neon-btn w-full py-4 border-2 border-neon font-condensed tracking-widest uppercase text-base">
+                Send Message
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ========== FOOTER ========== -->
+<footer style="background:#0a0a0a;border-top:1px solid rgba(57,255,20,0.08);">
+  <div class="max-w-7xl mx-auto px-6 py-12">
+    <div class="grid md:grid-cols-3 gap-10 mb-10">
+
+      <!-- Brand -->
+      <div>
+        <div class="flex items-center gap-2 mb-4">
+          <div class="w-7 h-7 border-2 border-neon flex items-center justify-center" style="box-shadow:0 0 10px #39FF1466;">
+            <span class="font-display text-neon text-sm leading-none">T</span>
+          </div>
+          <span class="font-display text-white text-lg tracking-widest">Thrive Fitness Gym HUB</span>
+        </div>
+        <p class="text-muted text-sm font-light leading-relaxed max-w-xs">Forging stronger bodies and sharper minds in the heart of Hyderabad since 2018.</p>
+        <div class="flex gap-3 mt-5">
+          <a href="#" class="w-9 h-9 border border-white/10 flex items-center justify-center hover:border-neon hover:text-neon transition-all text-white/40">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="#" class="w-9 h-9 border border-white/10 flex items-center justify-center hover:border-neon hover:text-neon transition-all text-white/40">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="#" class="w-9 h-9 border border-white/10 flex items-center justify-center hover:border-neon hover:text-neon transition-all text-white/40">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick links -->
+      <div>
+        <p class="font-condensed tracking-widest uppercase text-xs text-neon mb-5">Quick Links</p>
+        <ul class="space-y-2.5">
+          <li><a href="#home" class="text-muted text-sm font-light hover:text-neon transition-colors">Home</a></li>
+          <li><a href="#features" class="text-muted text-sm font-light hover:text-neon transition-colors">Features</a></li>
+          <li><a href="#pricing" class="text-muted text-sm font-light hover:text-neon transition-colors">Pricing</a></li>
+          <li><a href="#location" class="text-muted text-sm font-light hover:text-neon transition-colors">Location & Hours</a></li>
+          <li><a href="#contact" class="text-muted text-sm font-light hover:text-neon transition-colors">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact info -->
+      <div>
+        <p class="font-condensed tracking-widest uppercase text-xs text-neon mb-5">Contact</p>
+        <ul class="space-y-3 text-muted text-sm font-light">
+          <li>Plot 42, Madhapur Main Rd,<br/>Hi-Tech City, Hyderabad 500081</li>
+          <li>+91 98765 43210</li>
+          <li>info@titanfitness.in</li>
+          <li class="pt-1">
+            <span class="text-white/40 text-xs">Mon–Fri:</span> <span class="text-neon text-xs">6 AM – 10 PM</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="border-t border-white/05 pt-6 flex flex-col md:flex-row justify-between items-center gap-3">
+      <p class="text-white/25 text-xs font-light">© 2025 Thrive Fitness Gym Hub. All rights reserved.</p>
+      <div class="flex gap-6">
+        <a href="#" class="text-white/25 text-xs font-light hover:text-white/50 transition-colors">Privacy Policy</a>
+        <a href="#" class="text-white/25 text-xs font-light hover:text-white/50 transition-colors">Terms of Service</a>
+        <a href="#" class="text-white/25 text-xs font-light hover:text-white/50 transition-colors">Refund Policy</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+
+<!-- ========== JAVASCRIPT ========== -->
+<script>
+  // Mobile menu toggle
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const bar1 = document.getElementById('bar1');
+  const bar3 = document.getElementById('bar3');
+
+  menuToggle.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.contains('open');
+    mobileMenu.classList.toggle('open');
+    bar1.style.transform = isOpen ? '' : 'rotate(45deg) translateY(8px)';
+    bar3.style.transform = isOpen ? '' : 'rotate(-45deg) translateY(-4px)';
+    bar3.style.width = isOpen ? '16px' : '24px';
+  });
+
+  function closeMobileMenu() {
+    mobileMenu.classList.remove('open');
+    bar1.style.transform = '';
+    bar3.style.transform = '';
+    bar3.style.width = '16px';
+  }
+
+  // Scroll fade-in observer
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Contact form submit
+  function submitForm() {
+    const name = document.getElementById('inp-name').value.trim();
+    const phone = document.getElementById('inp-phone').value.trim();
+    if (!name || !phone) {
+      // Shake inputs
+      ['inp-name', 'inp-phone'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el.value.trim()) {
+          el.style.borderColor = '#ff4444';
+          el.style.boxShadow = '0 0 8px rgba(255,68,68,0.3)';
+          setTimeout(() => { el.style.borderColor = ''; el.style.boxShadow = ''; }, 1500);
+        }
+      });
+      return;
+    }
+    document.getElementById('contact-form').style.opacity = '0';
+    document.getElementById('contact-form').style.transform = 'scale(0.95)';
+    setTimeout(() => {
+      document.getElementById('contact-form').style.display = 'none';
+      document.getElementById('form-success').classList.remove('hidden');
+      document.getElementById('form-success').style.opacity = '0';
+      setTimeout(() => {
+        document.getElementById('form-success').style.opacity = '1';
+        document.getElementById('form-success').style.transition = 'opacity 0.4s';
+      }, 50);
+    }, 300);
+  }
+
+  // Active nav highlight on scroll
+  const sections = document.querySelectorAll('section[id], div[id="home"]');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    document.querySelectorAll('section').forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(link => {
+      link.style.color = link.getAttribute('href') === '#' + current ? '#39FF14' : '';
+    });
+  });
+</script>
+
+</body>
+</html>
